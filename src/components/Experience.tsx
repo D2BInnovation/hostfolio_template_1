@@ -1,6 +1,7 @@
 import React from 'react';
 import './Experience.css';
 import data from '../../data.json';
+import type { PortfolioData } from '../types';
 
 interface ExperienceItem {
   id: number;
@@ -14,7 +15,12 @@ interface ExperienceItem {
 }
 
 const Experience: React.FC = () => {
-  const { experience } = data;
+  const { experience } = data as PortfolioData;
+
+  // Don't render section if experience data is not present or empty
+  if (!experience || !experience.length) {
+    return null;
+  }
 
   return (
     <section id="experience" className="experience">
@@ -22,36 +28,37 @@ const Experience: React.FC = () => {
         <h2 className="section-title">Experience</h2>
         <div className="experience-timeline">
           {experience.map((exp: ExperienceItem, index) => (
-            <div key={exp.id} className="experience-item">
-              <div className="experience-marker">
-                <div className="marker-dot"></div>
-                {index < experience.length - 1 && <div className="marker-line"></div>}
-              </div>
+            <div key={exp.id || index} className="experience-item">
               <div className="experience-content">
-                <div className="experience-header">
-                  <h3 className="position">{exp.position}</h3>
-                  <div className="company-info">
-                    <span className="company">{exp.company}</span>
-                    <span className="location">{exp.location}</span>
+                <h3 className="experience-title">{exp.position}</h3>
+                <h4 className="experience-company">{exp.company}</h4>
+                <div className="experience-meta">
+                  <span className="experience-duration">{exp.duration}</span>
+                  <span className="experience-location">{exp.location}</span>
+                </div>
+                <p className="experience-description">{exp.description}</p>
+                {exp.achievements && exp.achievements.length > 0 && (
+                  <div className="experience-achievements">
+                    <h5>Key Achievements:</h5>
+                    <ul>
+                      {exp.achievements.map((achievement, achIndex) => (
+                        <li key={achIndex}>{achievement}</li>
+                      ))}
+                    </ul>
                   </div>
-                  <span className="duration">{exp.duration}</span>
-                </div>
-                <p className="description">{exp.description}</p>
-                <div className="achievements">
-                  <h4>Key Achievements:</h4>
-                  <ul>
-                    {exp.achievements.map((achievement, achIndex) => (
-                      <li key={achIndex}>{achievement}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="technologies">
-                  {exp.technologies.map((tech, techIndex) => (
-                    <span key={techIndex} className="tech-tag">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+                )}
+                {exp.technologies && exp.technologies.length > 0 && (
+                  <div className="experience-technologies">
+                    <h5>Technologies:</h5>
+                    <div className="tech-tags">
+                      {exp.technologies.map((tech, techIndex) => (
+                        <span key={techIndex} className="tech-tag">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           ))}

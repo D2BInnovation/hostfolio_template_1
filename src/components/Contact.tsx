@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import './Contact.css';
 import data from '../../data.json';
-
-interface SocialLink {
-  platform: string;
-  url: string;
-  icon: string;
-}
+import type { PortfolioData } from '../types';
 
 const Contact: React.FC = () => {
-  const { personal, contact } = data;
+  const { contact } = data as PortfolioData;
+
+  // Don't render section if contact data is not present
+  if (!contact || (!contact.title && !contact.description && !contact.socialLinks?.length)) {
+    return null;
+  }
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -29,52 +30,22 @@ const Contact: React.FC = () => {
     e.preventDefault();
     // Handle form submission here
     console.log('Form submitted:', formData);
-    // You can integrate with email service or backend API
+    alert('Thank you for your message! I will get back to you soon.');
+    setFormData({
+      name: '',
+      email: '',
+      subject: '',
+      message: ''
+    });
   };
 
   return (
     <section id="contact" className="contact">
       <div className="container">
-        <h2 className="section-title">Contact Me</h2>
+        {contact.title && <h2 className="section-title">{contact.title}</h2>}
+        {contact.description && <p className="contact-description">{contact.description}</p>}
+        
         <div className="contact-content">
-          <div className="contact-info">
-            <h3>{contact.title}</h3>
-            <p>{contact.description}</p>
-            
-            <div className="contact-details">
-              <div className="contact-item">
-                <span className="label">Email:</span>
-                <a href={`mailto:${personal.email}`}>{personal.email}</a>
-              </div>
-              <div className="contact-item">
-                <span className="label">Phone:</span>
-                <a href={`tel:${personal.phone}`}>{personal.phone}</a>
-              </div>
-              <div className="contact-item">
-                <span className="label">Location:</span>
-                <span>{personal.location}</span>
-              </div>
-            </div>
-
-            <div className="social-links">
-              <h4>Connect with me:</h4>
-              <div className="social-icons">
-                {contact.socialLinks.map((link: SocialLink, index) => (
-                  <a
-                    key={index}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`social-link ${link.icon}`}
-                    aria-label={link.platform}
-                  >
-                    {link.platform}
-                  </a>
-                ))}
-              </div>
-            </div>
-          </div>
-
           <div className="contact-form">
             <form onSubmit={handleSubmit}>
               <div className="form-group">
@@ -88,7 +59,6 @@ const Contact: React.FC = () => {
                   required
                 />
               </div>
-              
               <div className="form-group">
                 <label htmlFor="email">Email</label>
                 <input
@@ -130,6 +100,26 @@ const Contact: React.FC = () => {
               </button>
             </form>
           </div>
+
+          {contact.socialLinks && contact.socialLinks.length > 0 && (
+            <div className="contact-info">
+              <h4>Connect with me:</h4>
+              <div className="social-icons">
+                {contact.socialLinks.map((link: any, index: number) => (
+                  <a
+                    key={index}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`social-link ${link.icon}`}
+                    aria-label={link.platform}
+                  >
+                    {link.platform}
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>
