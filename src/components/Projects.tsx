@@ -1,4 +1,4 @@
-import React from 'react';
+import type { FC } from 'react';
 import './Projects.css';
 import data from '../../data.json';
 import type { PortfolioData } from '../types';
@@ -14,7 +14,7 @@ interface Project {
   featured: boolean;
 }
 
-const Projects: React.FC = () => {
+const Projects: FC = () => {
   const { projects } = data as PortfolioData;
 
   return (

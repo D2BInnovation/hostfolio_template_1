@@ -1,9 +1,9 @@
-import React from 'react';
+import type { FC } from 'react';
 import './Hero.css';
 import data from '../../data.json';
 import type { PortfolioData } from '../types';
 
-const Hero: React.FC = () => {
+const Hero: FC = () => {
   const { personal, hero } = data as PortfolioData;
 
   // Don't render section if hero data is not present

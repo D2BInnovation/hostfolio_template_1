@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState, type FC } from 'react';
 import './Contact.css';
 import data from '../../data.json';
 import type { PortfolioData } from '../types';
 
-const Contact: React.FC = () => {
+const Contact: FC = () => {
   const { contact } = data as PortfolioData;
 
   // Don't render section if contact data is not present
@@ -44,7 +44,7 @@ const Contact: React.FC = () => {
       <div className="container">
         {contact.title && <h2 className="section-title">{contact.title}</h2>}
         {contact.description && <p className="contact-description">{contact.description}</p>}
-        
+
         <div className="contact-content">
           <div className="contact-form">
             <form onSubmit={handleSubmit}>
@@ -70,7 +70,7 @@ const Contact: React.FC = () => {
                   required
                 />
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="subject">Subject</label>
                 <input
@@ -82,7 +82,7 @@ const Contact: React.FC = () => {
                   required
                 />
               </div>
-              
+
               <div className="form-group">
                 <label htmlFor="message">Message</label>
                 <textarea
@@ -94,7 +94,7 @@ const Contact: React.FC = () => {
                   required
                 ></textarea>
               </div>
-              
+
               <button type="submit" className="btn btn-primary">
                 Send Message
               </button>

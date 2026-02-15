@@ -1,4 +1,4 @@
-import React from 'react';
+import type { FC } from 'react';
 import './Experience.css';
 import data from '../../data.json';
 import type { PortfolioData } from '../types';
@@ -14,7 +14,7 @@ interface ExperienceItem {
   technologies: string[];
 }
 
-const Experience: React.FC = () => {
+const Experience: FC = () => {
   const { experience } = data as PortfolioData;
 
   // Don't render section if experience data is not present or empty

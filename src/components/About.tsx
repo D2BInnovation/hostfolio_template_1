@@ -1,9 +1,9 @@
-import React from 'react';
+import type { FC } from 'react';
 import './About.css';
 import data from '../../data.json';
 import type { PortfolioData } from '../types';
 
-const About: React.FC = () => {
+const About: FC = () => {
   const { about } = data as PortfolioData;
 
   // Don't render section if about data is not present or empty
