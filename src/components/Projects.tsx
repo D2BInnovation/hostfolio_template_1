@@ -1,6 +1,7 @@
 import React from 'react';
 import './Projects.css';
 import data from '../../data.json';
+import type { PortfolioData } from '../types';
 
 interface Project {
   id: number;
@@ -14,7 +15,7 @@ interface Project {
 }
 
 const Projects: React.FC = () => {
-  const { projects } = data;
+  const { projects } = data as PortfolioData;
 
   return (
     <section id="projects" className="projects">
@@ -43,18 +44,18 @@ const Projects: React.FC = () => {
                   ))}
                 </div>
                 <div className="project-links">
-                  <a 
-                    href={project.githubUrl} 
-                    target="_blank" 
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="project-link"
                   >
                     GitHub
                   </a>
                   {project.liveUrl && (
-                    <a 
-                      href={project.liveUrl} 
-                      target="_blank" 
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="project-link live"
                     >

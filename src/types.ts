@@ -8,6 +8,7 @@ export interface PersonalInfo {
   linkedin: string;
   github: string;
   bio: string;
+  resume?: string;
 }
 
 export interface HeroSection {
@@ -69,4 +70,5 @@ export interface PortfolioData {
   experience: ExperienceItem[];
   projects: ProjectItem[];
   contact: ContactSection;
+  resume?: string;
 }

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './Navigation.css';
+import type { PortfolioData } from '../types';
 import data from '../../data.json';
 
 const Navigation: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { personal, about, experience, projects, contact, resume } = data;
+  const { personal, about, experience, projects, contact, resume } = data as PortfolioData;
 
   useEffect(() => {
     const handleScroll = () => {
