@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import './App.css';
 import Navigation from './components/Navigation';
 import data from '../data.json';
