@@ -5,7 +5,7 @@ import data from '../../data.json';
 const Navigation: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { personal } = data;
+  const { personal, about, experience, projects, contact, resume } = data;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,12 +16,19 @@ const Navigation: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navItems = [
-    { label: 'About', href: '#about' },
-    { label: 'Experience', href: '#experience' },
-    { label: 'Projects', href: '#projects' },
-    { label: 'Contact', href: '#contact' }
-  ];
+  const navItems = [];
+  if (about && (about.description?.length > 0 || about.skills?.length > 0)) {
+    navItems.push({ label: 'About', href: '#about' });
+  }
+  if (experience && experience.length > 0) {
+    navItems.push({ label: 'Experience', href: '#experience' });
+  }
+  if (projects && projects.length > 0) {
+    navItems.push({ label: 'Projects', href: '#projects' });
+  }
+  if (contact) {
+    navItems.push({ label: 'Contact', href: '#contact' });
+  }
 
   const handleNavClick = (href: string) => {
     setIsMobileMenuOpen(false);
@@ -40,7 +47,7 @@ const Navigation: React.FC = () => {
             {personal.name}
           </a>
         </div>
-        
+
         <div className={`nav-menu ${isMobileMenuOpen ? 'active' : ''}`}>
           {navItems.map((item) => (
             <a
@@ -55,6 +62,11 @@ const Navigation: React.FC = () => {
               {item.label}
             </a>
           ))}
+          {resume && (
+            <a href={resume} target="_blank" rel="noopener noreferrer" className="nav-link resume-btn">
+              Resume
+            </a>
+          )}
         </div>
 
         <button
