@@ -1,70 +1,69 @@
-import type { FC } from 'react';
-import './Projects.css';
+import { motion } from 'framer-motion';
+
+import { ExternalLink, Github } from 'lucide-react';
 import data from '../../data.json';
-import type { PortfolioData } from '../types';
+import ImageWithFallback from './ImageWithFallback';
 
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  technologies: string[];
-  githubUrl: string;
-  liveUrl?: string;
-  image?: string;
-  featured: boolean;
-}
-
-const Projects: FC = () => {
-  const { projects } = data as PortfolioData;
+const Projects = () => {
+  const { projects } = data;
 
   return (
-    <section id="projects" className="projects">
-      <div className="container">
-        <h2 className="section-title">My Projects</h2>
-        <div className="projects-grid">
-          {projects.map((project: Project) => (
-            <div key={project.id} className={`project-card ${project.featured ? 'featured' : ''}`}>
-              <div className="project-image">
-                {project.image ? (
-                  <img src={project.image} alt={project.title} />
-                ) : (
-                  <div className="image-placeholder">
-                    Project Screenshot
-                  </div>
-                )}
-              </div>
-              <div className="project-content">
-                <h3 className="project-title">{project.title}</h3>
-                <p className="project-description">{project.description}</p>
-                <div className="project-technologies">
-                  {project.technologies.map((tech, index) => (
-                    <span key={index} className="tech-tag">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-                <div className="project-links">
-                  <a
-                    href={project.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="project-link"
-                  >
-                    GitHub
-                  </a>
+    <section id="projects" className="py-24 px-4 bg-white/2">
+      <div className="max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4">Featured Projects</h2>
+          <div className="w-20 h-1.5 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full" />
+        </motion.div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {projects.map((project, index) => (
+            <motion.div
+              key={project.id || index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              className="glass rounded-[2rem] overflow-hidden group hover:border-purple-500/50 transition-all duration-500"
+            >
+              <div className="aspect-video relative overflow-hidden">
+                <ImageWithFallback
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center gap-4">
+                  {project.githubUrl && (
+                    <a href={project.githubUrl} target="_blank" className="p-3 bg-white/10 hover:bg-white text-white hover:text-purple-600 rounded-full transition-all">
+                      <Github className="w-6 h-6" />
+                    </a>
+                  )}
                   {project.liveUrl && (
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="project-link live"
-                    >
-                      Live Demo
+                    <a href={project.liveUrl} target="_blank" className="p-3 bg-white/10 hover:bg-white text-white hover:text-purple-600 rounded-full transition-all">
+                      <ExternalLink className="w-6 h-6" />
                     </a>
                   )}
                 </div>
               </div>
-            </div>
+
+              <div className="p-8">
+                <h3 className="text-2xl font-bold text-white mb-3">{project.title}</h3>
+                <p className="text-slate-400 text-sm mb-6 line-clamp-3">
+                  {project.description}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {project.technologies?.map((tech, i) => (
+                    <span key={i} className="px-3 py-1 bg-purple-500/10 text-purple-400 text-[10px] font-bold uppercase tracking-wider rounded-lg border border-purple-500/20">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>

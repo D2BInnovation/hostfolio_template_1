@@ -8,8 +8,10 @@ export interface PersonalInfo {
   linkedin: string;
   github: string;
   bio: string;
+  profileImage?: string;
   resume?: string;
 }
+
 
 export interface HeroSection {
   greeting: string;

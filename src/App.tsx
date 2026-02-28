@@ -1,57 +1,49 @@
-import { lazy, Suspense } from 'react';
-import './App.css';
-import Navigation from './components/Navigation';
-import data from '../data.json';
-import type { PortfolioData } from './types';
+import { useEffect } from 'react';
 
-// Dynamic imports for conditional rendering
-const Hero = lazy(() => import('./components/Hero'));
-const About = lazy(() => import('./components/About'));
-const Experience = lazy(() => import('./components/Experience'));
-const Projects = lazy(() => import('./components/Projects'));
-const Contact = lazy(() => import('./components/Contact'));
+import Navigation from './components/Navigation';
+import Hero from './components/Hero';
+import About from './components/About';
+import Experience from './components/Experience';
+import Projects from './components/Projects';
+import Contact from './components/Contact';
+import data from '../data.json';
+import { motion, useScroll, useSpring } from 'framer-motion';
 
 function App() {
-  const portfolioData = data as PortfolioData;
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  useEffect(() => {
+    if (data.personal?.name) {
+      document.title = `${data.personal.name} | Portfolio`;
+    }
+  }, []);
 
   return (
-    <div className="App">
+    <div className="relative antialiased">
+      {/* Scroll Progress Bar */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 to-pink-500 z-[100] origin-left"
+        style={{ scaleX }}
+      />
+
       <Navigation />
-      
-      {/* Hero Section - Show if hero data exists */}
-      {portfolioData.hero && (
-        <Suspense fallback={<div />}>
-          <Hero />
-        </Suspense>
-      )}
-      
-      {/* About Section - Show if about data exists */}
-      {portfolioData.about && (
-        <Suspense fallback={<div />}>
-          <About />
-        </Suspense>
-      )}
-      
-      {/* Experience Section - Show if experience data exists and has items */}
-      {portfolioData.experience && portfolioData.experience.length > 0 && (
-        <Suspense fallback={<div />}>
-          <Experience />
-        </Suspense>
-      )}
-      
-      {/* Projects Section - Show if projects data exists and has items */}
-      {portfolioData.projects && portfolioData.projects.length > 0 && (
-        <Suspense fallback={<div />}>
-          <Projects />
-        </Suspense>
-      )}
-      
-      {/* Contact Section - Show if contact data exists */}
-      {portfolioData.contact && (
-        <Suspense fallback={<div />}>
-          <Contact />
-        </Suspense>
-      )}
+
+      <main className="space-y-0">
+        <Hero />
+        <About />
+        <Experience />
+        <Projects />
+        <Contact />
+      </main>
+
+      <footer className="py-12 text-center text-slate-500 text-sm border-t border-white/5">
+        <p>© {new Date().getFullYear()} {data.personal.name}. Built with Template 1.</p>
+      </footer>
     </div>
   );
 }
