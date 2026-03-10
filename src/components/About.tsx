@@ -1,9 +1,10 @@
 import { motion } from 'framer-motion';
 
 import data from '../../data.json';
+import type { PortfolioData } from '../types';
 
 const About = () => {
-  const { about } = data;
+  const { about } = data as PortfolioData;
 
   return (
     <section id="about" className="py-24 px-4">

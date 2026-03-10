@@ -2,10 +2,13 @@ import { motion } from 'framer-motion';
 
 import { ExternalLink, Github } from 'lucide-react';
 import data from '../../data.json';
+import type { PortfolioData } from '../types';
 import ImageWithFallback from './ImageWithFallback';
 
 const Projects = () => {
-  const { projects } = data;
+  const { projects } = data as PortfolioData;
+
+  if (!projects || projects.length === 0) return null;
 
   return (
     <section id="projects" className="py-24 px-4 bg-white/2">

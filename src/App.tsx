@@ -35,14 +35,14 @@ function App() {
 
       <main className="space-y-0">
         <Hero />
-        <About />
-        <Experience />
-        <Projects />
-        <Contact />
+        {data.about && <About />}
+        {data.experience && data.experience.length > 0 && <Experience />}
+        {data.projects && data.projects.length > 0 && <Projects />}
+        {data.contact && <Contact />}
       </main>
 
       <footer className="py-12 text-center text-slate-500 text-sm border-t border-white/5">
-        <p>© {new Date().getFullYear()} {data.personal.name}. Built with Template 1.</p>
+        <p>© {new Date().getFullYear()} {data.personal?.name || 'Portfolio'}. Built with Template 1.</p>
       </footer>
     </div>
   );

@@ -2,9 +2,12 @@ import { motion } from 'framer-motion';
 
 import { Briefcase, Calendar, MapPin } from 'lucide-react';
 import data from '../../data.json';
+import type { PortfolioData } from '../types';
 
 const Experience = () => {
-  const { experience } = data;
+  const { experience } = data as PortfolioData;
+
+  if (!experience || experience.length === 0) return null;
 
   return (
     <section id="experience" className="py-24 px-4 bg-white/[0.01]">

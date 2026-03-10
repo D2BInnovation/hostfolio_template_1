@@ -2,9 +2,12 @@ import { motion } from 'framer-motion';
 
 import { Mail, MessageSquare, Send, Github, Linkedin, Globe } from 'lucide-react';
 import data from '../../data.json';
+import type { PortfolioData } from '../types';
 
 const Contact = () => {
-  const { contact, personal } = data;
+  const { contact, personal } = data as PortfolioData;
+
+  if (!contact) return null;
 
   return (
     <section id="contact" className="py-24 px-4 bg-gradient-to-b from-transparent to-purple-900/10">

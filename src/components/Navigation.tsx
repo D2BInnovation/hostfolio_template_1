@@ -4,11 +4,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 
 import data from '../../data.json';
+import type { PortfolioData } from '../types';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { personal } = data;
+  const { personal, experience, projects, about, contact } = data as PortfolioData;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,11 +21,19 @@ const Navigation = () => {
 
   const navLinks = [
     { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Contact', href: '#contact' },
   ];
+  if (about && (about.description?.length > 0 || about.skills?.length > 0)) {
+    navLinks.push({ name: 'About', href: '#about' });
+  }
+  if (experience && experience.length > 0) {
+    navLinks.push({ name: 'Experience', href: '#experience' });
+  }
+  if (projects && projects.length > 0) {
+    navLinks.push({ name: 'Projects', href: '#projects' });
+  }
+  if (contact) {
+    navLinks.push({ name: 'Contact', href: '#contact' });
+  }
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'py-4' : 'py-8'}`}>
@@ -50,12 +59,14 @@ const Navigation = () => {
                 {link.name}
               </a>
             ))}
-            <a
-              href="#contact"
-              className="px-6 py-2.5 bg-white text-black rounded-full text-sm font-bold hover:bg-purple-500 hover:text-white transition-all transform hover:scale-105 active:scale-95"
-            >
-              Hire Me
-            </a>
+            {contact && (
+              <a
+                href="#contact"
+                className="px-6 py-2.5 bg-white text-black rounded-full text-sm font-bold hover:bg-purple-500 hover:text-white transition-all transform hover:scale-105 active:scale-95"
+              >
+                Hire Me
+              </a>
+            )}
           </div>
 
           {/* Mobile Toggle */}
@@ -85,9 +96,11 @@ const Navigation = () => {
                   {link.name}
                 </a>
               ))}
-              <button className="w-full py-4 bg-white text-black rounded-2xl font-bold mt-4">
-                Hire Me
-              </button>
+              {contact && (
+                <button className="w-full py-4 bg-white text-black rounded-2xl font-bold mt-4">
+                  Hire Me
+                </button>
+              )}
             </div>
           </motion.div>
         )}
